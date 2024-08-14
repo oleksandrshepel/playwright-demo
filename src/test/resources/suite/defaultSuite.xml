@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="Datatables e2e test suite" verbose="1">
-    <!--<test name="UI tests Chrome" parallel="methods" thread-count="1">
+    <test name="UI tests Chrome" parallel="methods" thread-count="1">
         <parameter name="browserName" value="chrome"/>
         <parameter name="headless" value="false"/>
         <packages>
             <package name="org.oshepel.playwright.demo.tests"/>
         </packages>
-    </test>-->
+    </test>
     <test name="UI tests Firefox" parallel="methods" thread-count="1">
         <parameter name="browserName" value="firefox"/>
         <parameter name="headless" value="false"/>
