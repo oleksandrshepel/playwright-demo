@@ -21,7 +21,7 @@ public class FormInputsTest extends BaseUiTest {
     @DataProvider(name = "search")
     public Object[][] searchData() {
         return new Object [][] {
-                {"CE"}, {"ce"}, {"cWq2134"}
+                {"CE"}, {"ce"}, {"cE"}
         };
     }
 
