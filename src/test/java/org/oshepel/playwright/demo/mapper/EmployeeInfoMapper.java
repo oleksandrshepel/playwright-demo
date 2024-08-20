@@ -1,5 +1,7 @@
 package org.oshepel.playwright.demo.mapper;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.oshepel.playwright.demo.model.Office;
 import org.oshepel.playwright.demo.pages.components.EmployeeTable;
 import org.oshepel.playwright.demo.util.FileUtils;
@@ -7,6 +9,7 @@ import org.testng.Assert;
 
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EmployeeInfoMapper {
 
     public static List<EmployeeTable.Row> mapFromCsv(String filePath) {
