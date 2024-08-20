@@ -24,8 +24,4 @@ public abstract class WebPageTable implements WebPageElement {
     public abstract WebPageTable shouldHaveHeaders();
 
     public abstract WebPageTable shouldHaveRows(List<? extends WebPageTableRow> expectedTableRows);
-
-    protected String splitColumns(String row) {
-        return row.replaceAll("\n", "").replaceAll("\t", "|");
-    }
 }

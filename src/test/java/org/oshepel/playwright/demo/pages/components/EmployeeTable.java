@@ -58,9 +58,9 @@ public class EmployeeTable extends WebPageTable {
         POSITION(2, "Position", rootLocator -> rootLocator.locator("td").nth(2).locator("input").inputValue()),
         OFFICE(3, "Office", rootLocator -> rootLocator.locator("td").nth(3).locator("select").inputValue());
 
-        private Integer columnIndex;
-        private String header;
-        private Function<Locator, String> valueExtractor;
+        private final Integer columnIndex;
+        private final String header;
+        private final Function<Locator, String> valueExtractor;
 
         public static Column of(String value) {
             for (Column column : values()) {
