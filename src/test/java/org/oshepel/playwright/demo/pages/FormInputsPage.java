@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import io.qameta.allure.Step;
 import org.assertj.core.api.Assertions;
+import org.oshepel.playwright.demo.pages.components.EmployeeTable;
 
 import java.util.List;
 
@@ -18,6 +19,12 @@ public class FormInputsPage extends AbstractBasePage {
     private Locator searchInput = playwrightPage.locator("input.dt-input");
     private Locator searchLabel = playwrightPage.locator("//input[@class='dt-input']/preceding-sibling::label");
     private Locator table = playwrightPage.locator("#example");
+
+    private EmployeeTable employeeTable;
+
+    public EmployeeTable getEmployeeTable() {
+        return new EmployeeTable();
+    }
 
     @Override
     @Step("Opening the form inputs page")
