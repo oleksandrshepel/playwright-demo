@@ -39,17 +39,27 @@ public class FormInputsTest extends BaseUiTest {
             """)
     @Severity(SeverityLevel.CRITICAL)
     void testSearchByName(String searchKey) {
+        //Arrange
+        var entriesPerPage = 10L;
         var expectedSearchResult = TestDataStep.givenEmployeeInfo()
                 .stream()
                 .filter(entry -> Pattern.compile(Pattern.quote(searchKey), Pattern.CASE_INSENSITIVE)
                         .matcher(entry.getName())
                         .find())
+                .limit(entriesPerPage)
                 .toList();
+        //Act
         formInputsPage
-                .selectEntriesCount(10)
+                .selectEntriesCount(entriesPerPage)
                 .searchByName(searchKey)
                 .getEmployeeTable()
+        //Assert
                 .shouldHaveHeaders()
                 .shouldHaveRows(expectedSearchResult);
     }
+
+    //todo create a test
+    //update Zorita Serrano
+    //find Zorita by search
+    //assert new data is displayed
 }

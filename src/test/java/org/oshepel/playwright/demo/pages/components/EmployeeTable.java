@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.oshepel.playwright.demo.mapper.EmployeeInfoMapper;
 import org.oshepel.playwright.demo.model.Office;
 import org.testng.Assert;
 
@@ -38,29 +39,33 @@ public class EmployeeTable extends WebPageTable {
     @Override
     @Step("The employee table should have values: {expectedTableRows}")
     public EmployeeTable shouldHaveRows(List<? extends WebPageTableRow> expectedTableRows) {
-        var actualRows = getRowsLocator().all().stream()
-                .map(row -> Row.builder()
-                        .name(Column.NAME.getValueExtractor().apply(row))
-                        .age(Integer.parseInt(Column.AGE.getValueExtractor().apply(row)))
-                        .position(Column.POSITION.getValueExtractor().apply(row))
-                        .office(Office.of(Column.OFFICE.getValueExtractor().apply(row)))
-                        .build())
+        var actualRows = getRowsLocator().all()
+                .stream()
+                .map(EmployeeInfoMapper::map)
                 .toList();
         Assert.assertEquals(actualRows, expectedTableRows);
+        return this;
+    }
+
+    @Step("Updating data in the column {column} for the employee {employeeName}")
+    public EmployeeTable updateCell(Column column, String employeeName, String value) {
+        var locator = rootLocator.locator(String.format("//td[text()='%s']/../td", employeeName)).nth(column.columnIndex);
+        fillCell(locator, column.getType(), value);
         return this;
     }
 
     @AllArgsConstructor
     @Getter
     public enum Column implements WebPageTableColumn {
-        NAME(0, "Name", rootLocator -> rootLocator.locator("td").nth(0).innerText()),
-        AGE(1, "Age", rootLocator -> rootLocator.locator("td").nth(1).locator("input").inputValue()),
-        POSITION(2, "Position", rootLocator -> rootLocator.locator("td").nth(2).locator("input").inputValue()),
-        OFFICE(3, "Office", rootLocator -> rootLocator.locator("td").nth(3).locator("select").inputValue());
+        NAME(0, "Name", rootLocator -> rootLocator.locator("td").nth(0).innerText(), WebElementType.TEXTAREA),
+        AGE(1, "Age", rootLocator -> rootLocator.locator("td").nth(1).locator("input").inputValue(), WebElementType.INPUT),
+        POSITION(2, "Position", rootLocator -> rootLocator.locator("td").nth(2).locator("input").inputValue(), WebElementType.INPUT),
+        OFFICE(3, "Office", rootLocator -> rootLocator.locator("td").nth(3).locator("select").inputValue(), WebElementType.SELECT);
 
         private final Integer columnIndex;
         private final String header;
         private final Function<Locator, String> valueExtractor;
+        private final WebElementType type;
 
         public static Column of(String value) {
             for (Column column : values()) {

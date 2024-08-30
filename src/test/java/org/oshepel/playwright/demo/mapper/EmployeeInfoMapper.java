@@ -1,5 +1,6 @@
 package org.oshepel.playwright.demo.mapper;
 
+import com.microsoft.playwright.Locator;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.oshepel.playwright.demo.model.Office;
@@ -27,5 +28,14 @@ public class EmployeeInfoMapper {
                         }
                 )
                 .toList();
+    }
+
+    public static EmployeeTable.Row map(Locator locator) {
+        return EmployeeTable.Row.builder()
+                .name(EmployeeTable.Column.NAME.getValueExtractor().apply(locator))
+                .age(Integer.parseInt(EmployeeTable.Column.AGE.getValueExtractor().apply(locator)))
+                .position(EmployeeTable.Column.POSITION.getValueExtractor().apply(locator))
+                .office(Office.of(EmployeeTable.Column.OFFICE.getValueExtractor().apply(locator)))
+                .build();
     }
 }

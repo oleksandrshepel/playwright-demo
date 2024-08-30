@@ -14,16 +14,16 @@ public class FormInputsPage extends AbstractBasePage {
     private static final String PAGE_HEADER = "Form inputs";
     private static final String SEARCH_LABEL = "Search:";
 
-    private Locator pageHeader = playwrightPage.locator(".page_title");
-    private Locator entriesCountSelect = playwrightPage.locator("select.dt-input");
-    private Locator searchInput = playwrightPage.locator("input.dt-input");
-    private Locator searchLabel = playwrightPage.locator("//input[@class='dt-input']/preceding-sibling::label");
-    private Locator table = playwrightPage.locator("#example");
+    private final Locator pageHeader = playwrightPage.locator(".page_title");
+    private final Locator entriesCountSelect = playwrightPage.locator("select.dt-input");
+    private final Locator searchInput = playwrightPage.locator("input.dt-input");
+    private final Locator searchLabel = playwrightPage.locator("//input[@class='dt-input']/preceding-sibling::label");
+    private final Locator table = playwrightPage.locator("#example");
 
-    private EmployeeTable employeeTable;
+    private final EmployeeTable employeeTable = new EmployeeTable();
 
     public EmployeeTable getEmployeeTable() {
-        return new EmployeeTable();
+        return employeeTable;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class FormInputsPage extends AbstractBasePage {
     }
 
     @Step("Selecting entries count")
-    public FormInputsPage selectEntriesCount(Integer count) {
+    public FormInputsPage selectEntriesCount(Long count) {
         entriesCountSelect.selectOption(String.valueOf(count));
         return this;
     }
