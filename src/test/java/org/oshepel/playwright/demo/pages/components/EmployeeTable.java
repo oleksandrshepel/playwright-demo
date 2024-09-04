@@ -25,7 +25,7 @@ public class EmployeeTable extends WebPageTable {
     }
 
     @Override
-    protected Locator getRootLocator() {
+    public Locator getRootLocator() {
         return rootLocator;
     }
 
@@ -54,9 +54,11 @@ public class EmployeeTable extends WebPageTable {
         return this;
     }
 
+
     @AllArgsConstructor
     @Getter
     public enum Column implements WebPageTableColumn {
+
         NAME(0, "Name", rootLocator -> rootLocator.locator("td").nth(0).innerText(), WebElementType.TEXTAREA),
         AGE(1, "Age", rootLocator -> rootLocator.locator("td").nth(1).locator("input").inputValue(), WebElementType.INPUT),
         POSITION(2, "Position", rootLocator -> rootLocator.locator("td").nth(2).locator("input").inputValue(), WebElementType.INPUT),
@@ -75,6 +77,7 @@ public class EmployeeTable extends WebPageTable {
             }
             throw new IllegalArgumentException(String.format("Column with header %s not found", value));
         }
+
     }
 
     @Builder
@@ -88,5 +91,4 @@ public class EmployeeTable extends WebPageTable {
         private Office office;
 
     }
-
 }
