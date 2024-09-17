@@ -102,7 +102,6 @@ public class FormInputsTest extends BaseUiTest {
         employeeTable.updateCell(column, employeeName, value);
         formInputsPage.searchByName(employeeName);
         EmployeeTable.Row row = EmployeeInfoMapper.map(lastRowLocator);
-
         //Assert
         if (row.getName().equals(employeeName)) {
             switch (column) {
@@ -112,7 +111,9 @@ public class FormInputsTest extends BaseUiTest {
                         Assert.assertEquals(String.valueOf(row.getOffice()), value.toUpperCase(), "Office has not been updated");
                 default -> throw new IllegalArgumentException(String.format("The column [%s] was not found", column));
             }
-        } else
+        } else {
             throw new IllegalArgumentException(String.format("The record was not found by the employee name [%s]", employeeName));
+        }
+
     }
 }
