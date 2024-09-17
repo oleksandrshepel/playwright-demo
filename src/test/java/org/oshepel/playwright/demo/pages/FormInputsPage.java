@@ -3,7 +3,10 @@ package org.oshepel.playwright.demo.pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import io.qameta.allure.Step;
-import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.Assertions;
+import org.oshepel.playwright.demo.pages.components.EmployeeTable;
+
+import java.util.List;
 
 public class FormInputsPage extends AbstractBasePage {
 
@@ -11,11 +14,17 @@ public class FormInputsPage extends AbstractBasePage {
     private static final String PAGE_HEADER = "Form inputs";
     private static final String SEARCH_LABEL = "Search:";
 
-    private Locator pageHeader = playwrightPage.locator(".page_title");
-    private Locator entriesCountSelect = playwrightPage.locator("select.dt-input");
-    private Locator searchInput = playwrightPage.locator("input.dt-input");
-    private Locator searchLabel = playwrightPage.locator("//input[@class='dt-input']/preceding-sibling::label");
-    private Locator table = playwrightPage.locator("#example");
+    private final Locator pageHeader = playwrightPage.locator(".page_title");
+    private final Locator entriesCountSelect = playwrightPage.locator("select.dt-input");
+    private final Locator searchInput = playwrightPage.locator("input.dt-input");
+    private final Locator searchLabel = playwrightPage.locator("//input[@class='dt-input']/preceding-sibling::label");
+    private final Locator table = playwrightPage.locator("#example");
+
+    private final EmployeeTable employeeTable = new EmployeeTable();
+
+    public EmployeeTable getEmployeeTable() {
+        return employeeTable;
+    }
 
     @Override
     @Step("Opening the form inputs page")
@@ -32,7 +41,7 @@ public class FormInputsPage extends AbstractBasePage {
     }
 
     @Step("Selecting entries count")
-    public FormInputsPage selectEntriesCount(Integer count) {
+    public FormInputsPage selectEntriesCount(Long count) {
         entriesCountSelect.selectOption(String.valueOf(count));
         return this;
     }
@@ -45,17 +54,10 @@ public class FormInputsPage extends AbstractBasePage {
         return this;
     }
 
-    //todo refactor
     @Step("Example table should contain names with a search key {searchKey}")
     public FormInputsPage exampleTableShouldHaveNames(String searchKey) {
-        var names = table.locator("td").nth(0).all()
-                .stream()
-                .map(Locator::innerText)
-                .toList();
-        SoftAssertions softAssertions = new SoftAssertions();
-        //todo find similar assert for collection
-        names.forEach(name -> softAssertions.assertThat(name).containsIgnoringCase(searchKey));
-        softAssertions.assertAll();
+        List<String> namesFromTable = table.locator("td:nth-of-type(1)").allTextContents();
+        namesFromTable.forEach(name -> Assertions.assertThat(name).containsIgnoringCase(searchKey));
         return this;
     }
 }
